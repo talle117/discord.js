@@ -465,6 +465,7 @@ class Message extends Base {
   edit(content, options) {
     const { data } =
       content instanceof APIMessage ? content.resolveData() : APIMessage.create(this, content, options).resolveData();
+    data.components = options && options.components || [];
     return this.client.api.channels[this.channel.id].messages[this.id].patch({ data }).then(d => {
       const clone = this._clone();
       clone._patch(d);
