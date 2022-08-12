@@ -6,11 +6,12 @@ const { Events } = require('../../util/Constants');
 class MessageCreateAction extends Action {
   handle(data) {
     const client = this.client;
-    const channel = client.channels.cache.get(data.channel_id);
-    if (channel) {
-      const existing = channel.messages.cache.get(data.id);
+    const channel = client?.channels?.cache?.get(data.channel_id);
+    if (client && channel) {
+      const existing = channel?.messages?.cache?.get(data.id);
       if (existing) return { message: existing };
       const message = channel.messages.add(data);
+      if (!message) return { };
       const user = message.author;
       let member = message.member;
       channel.lastMessageID = data.id;
